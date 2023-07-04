@@ -238,8 +238,7 @@ public extension SolanaAPIClient {
     }
 
     func getAccountInfoThrowable<T: BufferLayout>(account: String) async throws -> BufferInfo<T> {
-        let info: BufferInfo<T>? = try await getAccountInfoThrowable(account: account, commitment: nil)
-        return info
+        return try await getAccountInfoThrowable(account: account, commitment: nil)
     }
 
     /// Get fee per signature
