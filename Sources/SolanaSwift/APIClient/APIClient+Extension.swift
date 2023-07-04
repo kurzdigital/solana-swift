@@ -237,6 +237,11 @@ public extension SolanaAPIClient {
         return info
     }
 
+    func getAccountInfoThrowable<T: BufferLayout>(account: String) async throws -> BufferInfo<T> {
+        let info: BufferInfo<T>? = try await getAccountInfoThrowable(account: account, commitment: nil)
+        return info
+    }
+
     /// Get fee per signature
     func getLamportsPerSignature() async throws -> UInt64? {
         try await getFees(commitment: nil).feeCalculator?.lamportsPerSignature
