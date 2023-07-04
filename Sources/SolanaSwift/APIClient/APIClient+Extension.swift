@@ -17,6 +17,10 @@ public extension SolanaAPIClient {
         observeSignatureStatus(signature: signature, timeout: 60, delay: 2)
     }
 
+    func getAccountInfo<T: BufferLayout>(account: String) async throws -> BufferInfo<T>? {
+        try await getAccountInfo(account: account, commitment: nil)
+    }
+
     // MARK: - Additional methods
 
     func getMultipleMintDatas(

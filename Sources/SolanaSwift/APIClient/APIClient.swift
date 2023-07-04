@@ -17,13 +17,6 @@ public protocol SolanaAPIClient {
     func getAccountInfo<T: BufferLayout>(account: String, commitment: Commitment?) async throws -> BufferInfo<T>?
 
     /// Returns all information associated with the account of provided Pubkey
-    /// Same as above but with no commitment, to be used with legacy clients
-    ///
-    func getAccountInfo<T: BufferLayout>(account: String) async throws -> BufferInfo<T>? {
-        try await getAccountInfo(account: account, commitment: nil)
-    }
-
-    /// Returns all information associated with the account of provided Pubkey
     /// - Parameters:
     ///  - account: Pubkey of account to query, as base-58 encoded string
     /// - Throws: APIClientError and SolanaError.couldNotRetrieveAccountInfo
