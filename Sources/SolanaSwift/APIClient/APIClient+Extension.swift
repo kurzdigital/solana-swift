@@ -41,7 +41,8 @@ public extension SolanaAPIClient {
 
     func checkIfAssociatedTokenAccountExists(
         owner: PublicKey,
-        mint: String
+        mint: String,
+        commitment: Commitment? = nil
     ) async throws -> Bool {
         let mintAddress = try mint.toPublicKey()
 
@@ -50,7 +51,10 @@ public extension SolanaAPIClient {
             tokenMintAddress: mintAddress
         )
 
-        let bufferInfo: BufferInfo<AccountInfo>? = try await getAccountInfo(account: associatedTokenAccount.base58EncodedString)
+        let bufferInfo: BufferInfo<AccountInfo>? = try await getAccountInfo(
+            account: associatedTokenAccount.base58EncodedString,
+            commitment: commitment
+        )
         return bufferInfo?.data.mint == mintAddress
     }
 
@@ -60,8 +64,8 @@ public extension SolanaAPIClient {
     /// - Throws: TokenRepositoryError
     /// - Returns wether account is valid
     ///
-    func checkAccountValidation(account: String) async throws -> Bool {
-        (try await getAccountInfo(account: account) as BufferInfo<EmptyInfo>?) != nil
+    func checkAccountValidation(account: String, commitment: Commitment? = nil) async throws -> Bool {
+        (try await getAccountInfo(account: account, commitment: commitment) as BufferInfo<EmptyInfo>?) != nil
     }
 
     func findSPLTokenDestinationAddress(
@@ -221,8 +225,8 @@ public extension SolanaAPIClient {
     /// - Throws: APIClientError and SolanaError.couldNotRetrieveAccountInfo
     /// - Returns The result will be an BufferInfo
     /// - SeeAlso https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
-    func getAccountInfoThrowable<T: BufferLayout>(account: String) async throws -> BufferInfo<T> {
-        let info: BufferInfo<T>? = try await getAccountInfo(account: account)
+    func getAccountInfoThrowable<T: BufferLayout>(account: String, commitment: Commitment? = nil) async throws -> BufferInfo<T> {
+        let info: BufferInfo<T>? = try await getAccountInfo(account: account, commitment: commitment)
         guard let info = info else {
             throw SolanaError.couldNotRetrieveAccountInfo
         }
