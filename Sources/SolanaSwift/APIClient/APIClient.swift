@@ -14,7 +14,14 @@ public protocol SolanaAPIClient {
     /// - Returns The result will be an BufferInfo
     /// - SeeAlso https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
     ///
-    func getAccountInfo<T: BufferLayout>(account: String, commitment: Commitment? = nil) async throws -> BufferInfo<T>?
+    func getAccountInfo<T: BufferLayout>(account: String, commitment: Commitment?) async throws -> BufferInfo<T>?
+
+    /// Returns all information associated with the account of provided Pubkey
+    /// Same as above but with no commitment, to be used with legacy clients
+    ///
+    func getAccountInfo<T: BufferLayout>(account: String) async throws -> BufferInfo<T>? {
+        try await getAccountInfo(account: account, commitment: nil)
+    }
 
     /// Returns all information associated with the account of provided Pubkey
     /// - Parameters:
