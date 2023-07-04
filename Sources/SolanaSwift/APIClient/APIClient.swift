@@ -9,11 +9,12 @@ public protocol SolanaAPIClient {
     /// Returns all information associated with the account of provided Pubkey
     /// - Parameters:
     ///  - account: Pubkey of account to query, as base-58 encoded string
+    ///  - commitment: Optional
     /// - Throws: APIClientError
     /// - Returns The result will be an BufferInfo
     /// - SeeAlso https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
     ///
-    func getAccountInfo<T: BufferLayout>(account: String) async throws -> BufferInfo<T>?
+    func getAccountInfo<T: BufferLayout>(account: String, commitment: Commitment?) async throws -> BufferInfo<T>?
 
     /// Returns all information associated with the account of provided Pubkey
     /// - Parameters:

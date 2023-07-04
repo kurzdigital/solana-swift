@@ -24,10 +24,10 @@ public class JSONRPCAPIClient: SolanaAPIClient {
         try await get(method: "getTransaction", params: [signature, RequestConfiguration(commitment: commitment, encoding: "jsonParsed")])
     }
 
-    public func getAccountInfo<T: BufferLayout>(account: String) async throws -> BufferInfo<T>? {
+    public func getAccountInfo<T: BufferLayout>(account: String, commitment: Commitment? = nil) async throws -> BufferInfo<T>? {
         let response: Rpc<BufferInfo<T>?> = try await get(method: "getAccountInfo", params: [
             account,
-            RequestConfiguration(encoding: "base64")
+            RequestConfiguration(commitment: commitment, encoding: "base64")
         ])
         return response.value
     }
