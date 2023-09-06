@@ -71,7 +71,7 @@ public enum TokenProgram: SolanaBasicProgram {
             keys: [
                 AccountMeta(publicKey: source, isSigner: false, isWritable: true),
                 AccountMeta(publicKey: destination, isSigner: false, isWritable: true),
-                AccountMeta(publicKey: owner, isSigner: true, isWritable: true),
+                AccountMeta(publicKey: owner, isSigner: true, isWritable: false),
             ],
             programId: TokenProgram.id,
             data: [Index.transfer, amount]
