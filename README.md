@@ -37,7 +37,7 @@ SolanaSwift is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SolanaSwift', '~> 3.0.0'
+pod 'SolanaSwift', '~> 4.0.0'
 ```
 
 ### Swift package manager
@@ -45,7 +45,7 @@ pod 'SolanaSwift', '~> 3.0.0'
 ...
 dependencies: [
     ...
-    .package(url: "https://github.com/p2p-org/solana-swift", from: "3.0.0")
+    .package(url: "https://github.com/p2p-org/solana-swift", from: "4.0.0")
 ],
 ...
 ```
@@ -140,7 +140,7 @@ let apiClient = JSONRPCAPIClient(endpoint: endpoint)
 let result = try await apiClient.getBlockHeight()
 
 // To get balance of the current account
-guard let account = try? accountStorage.account?.publicKey.base58EncodedString else { throw SolanaError.unauthorized }
+guard let account = try? accountStorage.account?.publicKey.base58EncodedString else { throw UnauthorizedError }
 let balance = try await apiClient.getBalance(account: account, commitment: "recent")
 ```
 
