@@ -17,6 +17,10 @@ public extension SolanaAPIClient {
         observeSignatureStatus(signature: signature, timeout: 60, delay: 2)
     }
 
+    func getAccountInfo<T: BufferLayout>(account: String) async throws -> BufferInfo<T>? {
+        try await getAccountInfo(account: account, commitment: nil)
+    }
+
     // MARK: - Additional methods
 
     func getMultipleMintDatas(
@@ -39,7 +43,8 @@ public extension SolanaAPIClient {
 
     func checkIfAssociatedTokenAccountExists(
         owner: PublicKey,
-        mint: String
+        mint: String,
+        commitment: Commitment? = nil
     ) async throws -> Bool {
         let mintAddress = try mint.toPublicKey()
 
@@ -48,8 +53,9 @@ public extension SolanaAPIClient {
             tokenMintAddress: mintAddress
         )
 
-        let bufferInfo: BufferInfo<SPLTokenAccountState>? = try await getAccountInfo(account: associatedTokenAccount
-            .base58EncodedString)
+        let bufferInfo: BufferInfo<SPLTokenAccountState>? = try await getAccountInfo(
+            account: associatedTokenAccount.base58EncodedString,
+            commitment: commitment)
         return bufferInfo?.data.mint == mintAddress
     }
 
@@ -151,12 +157,16 @@ public extension SolanaAPIClient {
     /// - Throws: APIClientError
     /// - Returns The result will be an BufferInfo
     /// - SeeAlso https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
-    func getAccountInfoThrowable<T: BufferLayout>(account: String) async throws -> BufferInfo<T> {
-        let info: BufferInfo<T>? = try await getAccountInfo(account: account)
+    func getAccountInfoThrowable<T: BufferLayout>(account: String, commitment: Commitment? = nil) async throws -> BufferInfo<T> {
+        let info: BufferInfo<T>? = try await getAccountInfo(account: account, commitment: commitment)
         guard let info = info else {
             throw APIClientError.couldNotRetrieveAccountInfo
         }
         return info
+    }
+
+    func getAccountInfoThrowable<T: BufferLayout>(account: String) async throws -> BufferInfo<T> {
+        return try await getAccountInfoThrowable(account: account, commitment: nil)
     }
 
     /// Get fee per signature
