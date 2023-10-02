@@ -176,7 +176,7 @@ public enum TokenProgram: SolanaBasicProgram {
             keys: [
                 AccountMeta(publicKey: mint, isSigner: false, isWritable: true),
                 AccountMeta(publicKey: destination, isSigner: false, isWritable: true),
-                AccountMeta(publicKey: authority, isSigner: true, isWritable: true),
+                AccountMeta(publicKey: authority, isSigner: true, isWritable: false),
             ],
             programId: TokenProgram.id,
             data: [Index.mintTo, amount]
