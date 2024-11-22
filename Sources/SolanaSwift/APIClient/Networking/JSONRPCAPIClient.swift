@@ -96,7 +96,7 @@ public class JSONRPCAPIClient: SolanaAPIClient {
     }
 
     public func getMinimumBalanceForRentExemption(dataLength: UInt64,
-                                                  commitment: Commitment? = "recent") async throws -> UInt64
+                                                  commitment: Commitment? = "confirmed") async throws -> UInt64
     {
         try await get(
             method: "getMinimumBalanceForRentExemption",

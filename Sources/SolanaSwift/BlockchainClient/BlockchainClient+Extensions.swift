@@ -26,7 +26,7 @@ public extension SolanaBlockchainClient {
             (minRentExemption, newAccount) = try await (
                 apiClient.getMinimumBalanceForRentExemption(
                     dataLength: UInt64(SPLTokenAccountState.BUFFER_LENGTH),
-                    commitment: "recent"
+                    commitment: "confirmed"
                 ),
                 requestNewAccount
             )

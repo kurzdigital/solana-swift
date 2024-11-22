@@ -6,7 +6,7 @@ public extension SolanaAPIClient {
     // MARK: - Convenience methods
 
     func getMinimumBalanceForRentExemption(span: UInt64) async throws -> UInt64 {
-        try await getMinimumBalanceForRentExemption(dataLength: span, commitment: "recent")
+        try await getMinimumBalanceForRentExemption(dataLength: span, commitment: "confirmed")
     }
 
     @available(*, deprecated, message: "Use getLatestBlockhash instead")

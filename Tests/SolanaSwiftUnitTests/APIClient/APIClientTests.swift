@@ -108,14 +108,14 @@ class APIClientTests: XCTestCase {
     func testGetBalance() async throws {
         let mock = NetworkManagerMock(NetworkManagerMockJSON["getBalance"]!)
         let apiClient = JSONRPCAPIClient(endpoint: endpoint, networkManager: mock)
-        let result: UInt64 = try! await apiClient.getBalance(account: "", commitment: "recent")
+        let result: UInt64 = try! await apiClient.getBalance(account: "", commitment: "confirmed")
         XCTAssert(result == 123_456)
     }
 
     func testGetBalanceSingle() async throws {
         let mock = NetworkManagerMock(NetworkManagerMockJSON["getBalance_1"]!)
         let apiClient = JSONRPCAPIClient(endpoint: endpoint, networkManager: mock)
-        let result: UInt64 = try! await apiClient.getBalance(account: "", commitment: "recent")
+        let result: UInt64 = try! await apiClient.getBalance(account: "", commitment: "confirmed")
         XCTAssert(result == 123_456)
     }
 

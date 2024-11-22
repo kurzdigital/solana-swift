@@ -38,7 +38,7 @@ public extension SolanaSocket {
     /// Subscribe to `accountNotification`
     /// - Parameter publickey: account to be subscribed
     /// - Returns: id of the request
-    @discardableResult func accountSubscribe(publickey: String, commitment: String = "recent") async throws -> String {
+    @discardableResult func accountSubscribe(publickey: String, commitment: String = "confirmed") async throws -> String {
         try await subscribe(type: .account, params: publickey, commitment: commitment, encoding: "jsonParsed")
     }
 
