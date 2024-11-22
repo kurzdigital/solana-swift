@@ -30,21 +30,25 @@ public class BlockchainClient: SolanaBlockchainClient {
         // form transaction
         var transaction = Transaction(instructions: instructions, recentBlockhash: nil, feePayer: feePayer)
 
-        let feeCalculator: FeeCalculator
-        if let fc = fc {
-            feeCalculator = fc
-        } else {
-            let (lps, minRentExemption) = try await (
-                apiClient.getFees(commitment: nil).feeCalculator?.lamportsPerSignature,
-                apiClient.getMinimumBalanceForRentExemption(span: 165)
-            )
-            let lamportsPerSignature = lps ?? 5000
-            feeCalculator = DefaultFeeCalculator(
-                lamportsPerSignature: lamportsPerSignature,
-                minRentExemption: minRentExemption
-            )
-        }
-        let expectedFee = try feeCalculator.calculateNetworkFee(transaction: transaction)
+        // Disable the whole FeeCalculator logic for now, because we don't need it at all
+        // and there was a major change in the RPC methods of Solana, see:
+        // https://www.quicknode.com/guides/solana-development/tooling/agave-upgrade
+
+//        let feeCalculator: FeeCalculator
+//        if let fc = fc {
+//            feeCalculator = fc
+//        } else {
+//            let (lps, minRentExemption) = try await (
+//                apiClient.getFees(commitment: nil).feeCalculator?.lamportsPerSignature,
+//                apiClient.getMinimumBalanceForRentExemption(span: 165)
+//            )
+//            let lamportsPerSignature = lps ?? 5000
+//            feeCalculator = DefaultFeeCalculator(
+//                lamportsPerSignature: lamportsPerSignature,
+//                minRentExemption: minRentExemption
+//            )
+//        }
+//        let expectedFee = try feeCalculator.calculateNetworkFee(transaction: transaction)
 
         let blockhash = try await apiClient.getRecentBlockhash()
         transaction.recentBlockhash = blockhash
@@ -55,7 +59,7 @@ public class BlockchainClient: SolanaBlockchainClient {
         }
 
         // return formed transaction
-        return .init(transaction: transaction, signers: signers, expectedFee: expectedFee)
+        return .init(transaction: transaction, signers: signers, expectedFee: .zero)
     }
 
     /// Create prepared transaction for sending SOL
