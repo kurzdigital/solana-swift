@@ -120,7 +120,17 @@ public protocol SolanaAPIClient {
     /// up to limit blocks, inclusive
     /// - SeeAlso https://docs.solana.com/developing/clients/jsonrpc-api#getfees
     ///
+    @available(*, deprecated, message: "Use getFeeForMessage instead")
     func getFees(commitment: Commitment?) async throws -> Fee
+
+    /// Get the fee the network will charge for a particular Message
+    /// - Parameters:
+    ///   - message: Base-64 encoded Message
+    ///   - commitment: Optional commitment level
+    ///   - minContextSlot: The minimum slot that the request can be evaluated at
+    /// - Returns: Fee corresponding to the message at the specified blockhash, or nil if not found
+    /// - SeeAlso: https://solana.com/docs/rpc/http/getfeeformessage
+    func getFeeForMessage(message: String, commitment: Commitment?, minContextSlot: UInt64?) async throws -> UInt64?
 
     /// Returns minimum balance required to make account rent exempt
     /// - Parameters:

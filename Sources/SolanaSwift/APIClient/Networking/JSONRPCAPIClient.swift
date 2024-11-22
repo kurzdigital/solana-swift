@@ -90,8 +90,18 @@ public class JSONRPCAPIClient: SolanaAPIClient {
         try await get(method: "getEpochInfo", params: [RequestConfiguration(commitment: commitment)])
     }
 
+    @available(*, deprecated, message: "Use getFeeForMessage instead")
     public func getFees(commitment: Commitment? = nil) async throws -> Fee {
         let result: Rpc<Fee> = try await get(method: "getFees", params: [RequestConfiguration(commitment: commitment)])
+        return result.value
+    }
+
+    public func getFeeForMessage(message: String, commitment: Commitment? = "confirmed", minContextSlot: UInt64?) async throws -> UInt64? {
+        let config = RequestConfiguration(commitment: commitment)
+        let result: Rpc<UInt64?> = try await get(
+            method: "getFeeForMessage",
+            params: [message, config]
+        )
         return result.value
     }
 
