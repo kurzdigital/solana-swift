@@ -104,13 +104,21 @@ public class JSONRPCAPIClient: SolanaAPIClient {
         )
     }
 
+    @available(*, deprecated, message: "Use getLatestBlockhash instead")
     public func getRecentBlockhash(commitment: Commitment? = nil) async throws -> String {
-        let result: Rpc<Fee> = try await get(method: "getRecentBlockhash",
-                                             params: [RequestConfiguration(commitment: commitment)])
-        guard let blockhash = result.value.blockhash else {
-            throw APIClientError.blockhashNotFound
-        }
-        return blockhash
+        try await getLatestBlockhash(commitment: commitment, minContextSlot: nil).blockhash
+    }
+
+    public func getLatestBlockhash(commitment: Commitment?, minContextSlot: UInt64?) async throws -> LatestBlockhashResponse {
+        let config = RequestConfiguration(
+            commitment: commitment,
+            minContextSlot: minContextSlot
+        )
+        let result: Rpc<LatestBlockhashResponse> = try await get(
+            method: "getLatestBlockhash",
+            params: [config]
+        )
+        return result.value
     }
 
     public func getSignatureStatuses(signatures: [String],

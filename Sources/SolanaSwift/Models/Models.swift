@@ -140,6 +140,11 @@ public struct LargestAccount: Decodable {
     public let address: String
 }
 
+public struct LatestBlockhashResponse: Decodable {
+    public let blockhash: String
+    public let lastValidBlockHeight: UInt64
+}
+
 public struct ProgramAccounts<T: BufferLayout>: Decodable {
     public let accounts: [ProgramAccount<T>]
     public init(from decoder: Decoder) throws {

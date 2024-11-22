@@ -81,6 +81,7 @@ public struct RequestConfiguration: Encodable {
     public let skipPreflight: Bool?
     public let preflightCommitment: Commitment?
     public let searchTransactionHistory: Bool?
+    public let minContextSlot: UInt64?
     public let replaceRecentBlockhash: Bool?
 
     public init?(
@@ -94,6 +95,7 @@ public struct RequestConfiguration: Encodable {
         skipPreflight: Bool? = nil,
         preflightCommitment: Commitment? = nil,
         searchTransactionHistory: Bool? = nil,
+        minContextSlot: UInt64? = nil,
         replaceRecentBlockhash: Bool? = nil
     ) {
         if commitment == nil,
@@ -106,8 +108,8 @@ public struct RequestConfiguration: Encodable {
            skipPreflight == nil,
            preflightCommitment == nil,
            searchTransactionHistory == nil,
-           replaceRecentBlockhash == nil
-        {
+           minContextSlot == nil,
+           replaceRecentBlockhash == nil {
             return nil
         }
 
@@ -121,6 +123,7 @@ public struct RequestConfiguration: Encodable {
         self.skipPreflight = skipPreflight
         self.preflightCommitment = preflightCommitment
         self.searchTransactionHistory = searchTransactionHistory
+        self.minContextSlot = minContextSlot
         self.replaceRecentBlockhash = replaceRecentBlockhash
     }
 }
